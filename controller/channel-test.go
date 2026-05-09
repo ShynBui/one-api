@@ -111,7 +111,7 @@ func testChannel(ctx context.Context, channel *model.Channel, request *relaymode
 		return "", err, nil
 	}
 	defer func() {
-		logContent := fmt.Sprintf("渠道 %s 测试成功，响应：%s", channel.Name, responseMessage)
+		logContent := fmt.Sprintf("Kênh %s test thành công, kết quả: %s", channel.Name, responseMessage)
 		if err != nil || openaiErr != nil {
 			errorMessage := ""
 			if err != nil {
@@ -119,7 +119,7 @@ func testChannel(ctx context.Context, channel *model.Channel, request *relaymode
 			} else {
 				errorMessage = openaiErr.Message
 			}
-			logContent = fmt.Sprintf("渠道 %s 测试失败，错误：%s", channel.Name, errorMessage)
+			logContent = fmt.Sprintf("Kênh %s test thất bại, lỗi: %s", channel.Name, errorMessage)
 		}
 		go model.RecordTestLog(ctx, &model.Log{
 			ChannelId:   channel.Id,
@@ -248,7 +248,7 @@ func testChannels(ctx context.Context, notify bool, scope string) error {
 				if config.AutomaticDisableChannelEnabled {
 					monitor.DisableChannel(channel.Id, channel.Name, err.Error())
 				} else {
-					_ = message.Notify(message.ByAll, fmt.Sprintf("渠道 %s （%d）测试超时", channel.Name, channel.Id), "", err.Error())
+					_ = message.Notify(message.ByAll, fmt.Sprintf("Kênh %s (%d) test quá giờ", channel.Name, channel.Id), "", err.Error())
 				}
 			}
 			if isChannelEnabled && monitor.ShouldDisableChannel(openaiErr, -1) {
@@ -264,7 +264,7 @@ func testChannels(ctx context.Context, notify bool, scope string) error {
 		testAllChannelsRunning = false
 		testAllChannelsLock.Unlock()
 		if notify {
-			err := message.Notify(message.ByAll, "渠道测试完成", "", "渠道测试完成，如果没有收到禁用通知，说明所有渠道都正常")
+			err := message.Notify(message.ByAll, "Test kênh hoàn tất", "", "Đã test xong toàn bộ kênh, nếu không có thông báo lỗi thì mọi thứ bình thường")
 			if err != nil {
 				logger.SysError(fmt.Sprintf("failed to send email: %s", err.Error()))
 			}

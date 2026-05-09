@@ -47,36 +47,36 @@ const MODE_OPTIONS = [
   { key: 'self', text: '当前用户', value: 'self' },
 ];
 
-function renderType(type) {
+function renderType(type, t) {
   switch (type) {
     case 1:
       return (
         <Label basic color='green'>
-          充值
+          {t('log.type.topup')}
         </Label>
       );
     case 2:
       return (
         <Label basic color='olive'>
-          消费
+          {t('log.type.usage')}
         </Label>
       );
     case 3:
       return (
         <Label basic color='orange'>
-          管理
+          {t('log.type.admin')}
         </Label>
       );
     case 4:
       return (
         <Label basic color='purple'>
-          系统
+          {t('log.type.system')}
         </Label>
       );
     case 5:
       return (
         <Label basic color='violet'>
-          测试
+          {t('log.type.test')}
         </Label>
       );
     default:
@@ -532,7 +532,7 @@ const LogsTable = () => {
                       )}
                     </Table.Cell>
                   )}
-                  <Table.Cell>{renderType(log.type)}</Table.Cell>
+                  <Table.Cell>{renderType(log.type, t)}</Table.Cell>
                   <Table.Cell>
                     {log.model_name ? renderColorLabel(log.model_name) : ''}
                   </Table.Cell>

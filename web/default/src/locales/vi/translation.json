@@ -1,0 +1,831 @@
+{
+  "header": {
+    "home": "Trang Chủ",
+    "channel": "Kênh API",
+    "token": "Token",
+    "redemption": "Đổi Mã",
+    "topup": "Nạp Tiền",
+    "user": "Người Dùng",
+    "dashboard": "Thống Kê",
+    "log": "Nhật Ký",
+    "setting": "Cài Đặt",
+    "about": "Giới Thiệu",
+    "chat": "Trò Chuyện",
+    "login": "Đăng Nhập",
+    "logout": "Đăng Xuất",
+    "register": "Đăng Ký"
+  },
+  "topup": {
+    "title": "Trung Tâm Nạp Tiền",
+    "get_code": {
+      "title": "Nhận Mã Đổi Thưởng",
+      "current_quota": "Hạn mức khả dụng hiện tại",
+      "button": "Nhận Mã Ngay"
+    },
+    "redeem_code": {
+      "title": "Đổi Mã (Redeem)",
+      "placeholder": "Vui lòng nhập mã đổi thưởng",
+      "paste": "Dán",
+      "paste_error": "Không thể truy cập khay nhớ tạm, vui lòng dán thủ công",
+      "submit": "Đổi Ngay",
+      "submitting": "Đang đổi...",
+      "empty_code": "Vui lòng nhập mã đổi thưởng!",
+      "success": "Nạp tiền thành công!",
+      "request_failed": "Yêu cầu thất bại",
+      "no_link": "Quản trị viên chưa thiết lập link nạp tiền!"
+    }
+  },
+  "channel": {
+    "title": "Quản Lý Kênh",
+    "search": "Tìm kênh theo ID, Tên và Key...",
+    "balance_notice": "Các kênh OpenAI không còn hỗ trợ lấy số dư qua key, nên số dư sẽ hiển thị là 0. Với các kênh có hỗ trợ, hãy nhấp vào số dư để làm mới.",
+    "test_notice": "Tính năng test kênh chỉ hỗ trợ các model chat, ưu tiên gpt-3.5-turbo. Nếu không có, hệ thống sẽ dùng model đầu tiên trong danh sách của bạn.",
+    "detail_notice": "Nhấn vào nút chi tiết bên dưới để xem số dư và thiết lập thêm model test.",
+    "table": {
+      "id": "ID",
+      "name": "Tên",
+      "group": "Nhóm",
+      "type": "Loại",
+      "status": "Trạng Thái",
+      "response_time": "Tốc độ phản hồi",
+      "balance": "Số Dư",
+      "priority": "Độ Ưu Tiên",
+      "test_model": "Test Model",
+      "actions": "Thao Tác",
+      "no_name": "Trống",
+      "status_enabled": "Hoạt Động",
+      "status_disabled": "Đã Tắt",
+      "status_auto_disabled": "Tự Động Tắt",
+      "status_disabled_tip": "Kênh này đã bị tắt thủ công",
+      "status_auto_disabled_tip": "Kênh này bị hệ thống tự động tắt (do lỗi)",
+      "status_unknown": "Không Rõ",
+      "not_tested": "Chưa Test",
+      "priority_tip": "Độ ưu tiên khi chọn kênh, số càng lớn càng được ưu tiên dùng trước",
+      "select_test_model": "Vui lòng chọn model test",
+      "click_to_update": "Nhấn để cập nhật",
+      "balance_not_supported": "-"
+    },
+    "buttons": {
+      "test": "Test",
+      "delete": "Xoá",
+      "confirm_delete": "Xác nhận Xoá Kênh",
+      "enable": "Bật",
+      "disable": "Tắt",
+      "edit": "Sửa",
+      "add": "Thêm Kênh Mới",
+      "test_all": "Test Tất Cả Kênh",
+      "test_disabled": "Test Các Kênh Bị Tắt",
+      "delete_disabled": "Xoá Các Kênh Bị Tắt",
+      "confirm_delete_disabled": "Xác nhận Xoá",
+      "refresh": "Làm Mới",
+      "show_detail": "Chi Tiết",
+      "hide_detail": "Ẩn Chi Tiết"
+    },
+    "messages": {
+      "test_success": "Test kênh {{name}} thành công, model {{model}}, thời gian {{time}}s, kết quả: {{message}}",
+      "test_all_started": "Đã bắt đầu tiến trình test tất cả kênh. Vui lòng tải lại trang sau ít phút để xem kết quả.",
+      "delete_disabled_success": "Đã xoá tất cả kênh bị tắt, tổng cộng: {{count}} kênh",
+      "balance_update_success": "Cập nhật số dư kênh {{name}} thành công!",
+      "all_balance_updated": "Đã cập nhật số dư cho toàn bộ kênh đang hoạt động!",
+      "operation_success": "Thao tác thành công!"
+    },
+    "edit": {
+      "title_edit": "Cập Nhật Thông Tin Kênh",
+      "title_create": "Tạo Kênh Mới",
+      "type": "Loại Kênh",
+      "name": "Tên Kênh",
+      "name_placeholder": "Vui lòng nhập tên kênh",
+      "group": "Nhóm",
+      "group_placeholder": "Vui lòng chọn các nhóm được phép dùng kênh này",
+      "group_addition": "Vui lòng vào Cài đặt hệ thống -> Cài đặt tỷ giá để thêm nhóm mới:",
+      "models": "Các Model Hỗ Trợ",
+      "models_placeholder": "Vui lòng chọn các model mà kênh này hỗ trợ",
+      "model_mapping": "Ánh Xạ Model (Model Mapping)",
+      "model_mapping_placeholder": "Đổi tên model khi gửi request. Nhập JSON, ví dụ: { \"gpt-4-oss\": \"gpt-4-turbo\" }",
+      "system_prompt": "System Prompt (Lời nhắc Hệ Thống)",
+      "system_prompt_placeholder": "Ghi đè System Prompt mặc định. Dùng kết hợp với custom model và model mapping.",
+      "proxy_url": "Proxy",
+      "proxy_url_placeholder": "Đường dẫn Proxy (Tuỳ chọn), ví dụ: https://proxy.domain.com",
+      "base_url": "Base URL",
+      "base_url_placeholder": "Đường dẫn Base URL chuẩn OpenAI",
+      "key": "Key API",
+      "key_placeholder": "Vui lòng nhập Key API",
+      "batch": "Tạo Hàng Loạt",
+      "batch_placeholder": "Vui lòng nhập mỗi Key 1 dòng",
+      "buttons": {
+        "cancel": "Huỷ",
+        "submit": "Lưu Giao Dịch",
+        "fill_models": "Điền Model Liên Quan",
+        "fill_all": "Điền Tất Cả Model",
+        "clear": "Xoá Sạch Model",
+        "add_custom": "Thêm",
+        "custom_placeholder": "Nhập tên model tuỳ chỉnh"
+      },
+      "messages": {
+        "name_required": "Vui lòng nhập tên kênh và key!",
+        "models_required": "Vui lòng chọn ít nhất 1 model!",
+        "model_mapping_invalid": "Model mapping phải là chuỗi JSON hợp lệ!",
+        "update_success": "Cập nhật kênh thành công!",
+        "create_success": "Tạo kênh thành công!"
+      },
+      "spark_version": "Phiên Bản Model",
+      "spark_version_placeholder": "Nhập phiên bản model Spark, ví dụ: v2.1",
+      "knowledge_id": "ID Kho Kiến Thức",
+      "knowledge_id_placeholder": "Nhập ID Kho kiến thức, ví dụ: 123456",
+      "plugin_param": "Tham Số Plugin",
+      "plugin_param_placeholder": "Nhập tham số plugin (giá trị header X-DashScope-Plugin)",
+      "coze_notice": "Với Coze, tên model chính là Bot ID. Bạn có thể thêm tiền tố `bot-`, ví dụ: `bot-123456`.",
+      "douban_notice": "Với Douban, bạn cần truy cập",
+      "douban_notice_link": "Trang Inference Model",
+      "douban_notice_2": "để tạo endpoint, và dùng tên endpoint làm tên model, ví dụ: `ep-20240608051426-tkxvl`.",
+      "aws_region_placeholder": "Khu vực AWS, ví dụ: us-west-2",
+      "aws_ak_placeholder": "AWS IAM Access Key",
+      "aws_sk_placeholder": "AWS IAM Secret Key",
+      "vertex_region_placeholder": "Vertex AI Region, ví dụ: us-east5",
+      "vertex_project_id": "Vertex AI Project ID",
+      "vertex_project_id_placeholder": "Vertex AI Project ID",
+      "vertex_credentials": "JSON Google Cloud Application Default Credentials",
+      "vertex_credentials_placeholder": "JSON Google Cloud Application Default Credentials",
+      "user_id": "User ID",
+      "user_id_placeholder": "User ID của người tạo key này",
+      "key_prompts": {
+        "default": "Vui lòng nhập Key xác thực cho kênh này",
+        "zhipu": "Nhập theo định dạng: APIKey|SecretKey",
+        "spark": "Nhập theo định dạng: APPID|APISecret|APIKey",
+        "fastgpt": "Nhập theo định dạng: APIKey-AppId, ví dụ: fastgpt-xxx-yyy",
+        "tencent": "Nhập theo định dạng: AppId|SecretId|SecretKey"
+      }
+    }
+  },
+  "token": {
+    "title": "Quản Lý Token",
+    "search": "Tìm Token theo tên...",
+    "table": {
+      "name": "Tên Token",
+      "status": "Trạng Thái",
+      "used_quota": "Đã Dùng",
+      "remain_quota": "Hạn Mức Còn Lại",
+      "created_time": "Ngày Tạo",
+      "expired_time": "Ngày Hết Hạn",
+      "actions": "Thao Tác",
+      "no_name": "Không tên",
+      "never_expire": "Vĩnh viễn",
+      "unlimited": "Vô hạn",
+      "status_enabled": "Hoạt động",
+      "status_disabled": "Đã Tắt",
+      "status_expired": "Hết hạn",
+      "status_depleted": "Hết tiền",
+      "status_unknown": "Không Rõ"
+    },
+    "buttons": {
+      "copy": "Copy",
+      "chat": "Chat",
+      "delete": "Xoá",
+      "confirm_delete": "Xác nhận xoá Token",
+      "enable": "Bật",
+      "disable": "Tắt",
+      "edit": "Sửa",
+      "add": "Tạo Token Mới",
+      "refresh": "Làm Mới"
+    },
+    "edit": {
+      "title_edit": "Cập Nhật Token",
+      "title_create": "Tạo Token Mới",
+      "name": "Tên Token",
+      "name_placeholder": "Vui lòng nhập tên",
+      "models": "Phạm vi Model",
+      "models_placeholder": "Chỉ định các model được phép gọi, để trống là full quyền",
+      "ip_limit": "Giới Hạn IP",
+      "ip_limit_placeholder": "Nhập các dải mạng được phép, ví dụ: 192.168.0.0/24, cách nhau bằng dấu phẩy",
+      "expire_time": "Thời Gian Hết Hạn",
+      "expire_time_placeholder": "Định dạng: yyyy-MM-dd HH:mm:ss. Nhập -1 để không giới hạn",
+      "quota_notice": "Lưu ý: Hạn mức token chỉ là giới hạn tối đa cho riêng Token này. Mức sử dụng thực tế vẫn phụ thuộc vào số dư tài khoản của bạn.",
+      "quota": "Hạn Mức (Quota)",
+      "quota_placeholder": "Vui lòng nhập hạn mức",
+      "buttons": {
+        "never_expire": "Không bao giờ hết hạn",
+        "expire_1_month": "Hạn 1 Tháng",
+        "expire_1_day": "Hạn 1 Ngày",
+        "expire_1_hour": "Hạn 1 Giờ",
+        "expire_1_minute": "Hạn 1 Phút",
+        "unlimited_quota": "Đặt Vô Hạn Tiền",
+        "cancel_unlimited": "Huỷ Vô Hạn Tiền",
+        "submit": "Lưu",
+        "cancel": "Huỷ"
+      },
+      "messages": {
+        "update_success": "Cập nhật Token thành công!",
+        "create_success": "Tạo Token thành công! Vui lòng copy ở màn hình danh sách.",
+        "expire_time_invalid": "Định dạng thời gian không hợp lệ!"
+      }
+    },
+    "copy_options": {
+      "raw": "Copy Mã Token Gốc",
+      "ama": "Copy Link cho AMA",
+      "opencat": "Copy Link cho OpenCat",
+      "next": "Copy Link cho NextChat",
+      "lobe": "Copy Link cho LobeChat"
+    },
+    "messages": {
+      "copy_success": "Đã copy vào khay nhớ tạm!",
+      "copy_failed": "Trình duyệt chặn copy. Mã đã được điền vào ô tìm kiếm để bạn tự bôi đen.",
+      "operation_success": "Thao tác thành công!"
+    },
+    "sort": {
+      "placeholder": "Sắp xếp theo",
+      "default": "Mặc định",
+      "by_remain": "Sắp xếp theo hạn mức còn lại",
+      "by_used": "Sắp xếp theo hạn mức đã dùng"
+    }
+  },
+  "common": {
+    "quota": {
+      "display": "Quy đổi: {{amount}} VNĐ",
+      "display_short": "{{amount}}đ",
+      "unit": "đ"
+    }
+  },
+  "redemption": {
+    "title": "Quản Lý Đổi Mã",
+    "search": "Tìm mã đổi thưởng...",
+    "table": {
+      "id": "ID",
+      "name": "Tên",
+      "status": "Trạng Thái",
+      "quota": "Mệnh Giá",
+      "created_time": "Ngày Tạo",
+      "redeemed_time": "Ngày Đổi",
+      "actions": "Thao Tác",
+      "no_name": "Trống",
+      "not_redeemed": "Chưa Đổi"
+    },
+    "buttons": {
+      "copy": "Copy",
+      "delete": "Xoá",
+      "confirm_delete": "Xác nhận xoá",
+      "enable": "Bật",
+      "disable": "Tắt",
+      "edit": "Sửa",
+      "add": "Tạo Mã Mới",
+      "refresh": "Làm Mới"
+    },
+    "status": {
+      "unused": "Chưa Dùng",
+      "disabled": "Đã Tắt",
+      "used": "Đã Dùng",
+      "unknown": "Không Rõ"
+    },
+    "edit": {
+      "title_edit": "Sửa Mã Đổi Thưởng",
+      "title_create": "Tạo Mã Đổi Thưởng",
+      "name": "Tên",
+      "name_placeholder": "Nhập tên",
+      "quota": "Mệnh Giá",
+      "quota_placeholder": "Nhập mệnh giá cho mã này",
+      "count": "Số lượng tạo",
+      "count_placeholder": "Muốn tạo bao nhiêu mã 1 lúc?",
+      "buttons": {
+        "submit": "Tạo Ngay",
+        "cancel": "Huỷ"
+      }
+    },
+    "messages": {
+      "update_success": "Cập nhật mã thành công!",
+      "create_success": "Tạo mã thành công!"
+    }
+  },
+  "log": {
+    "title": "Nhật Ký Gọi API",
+    "search": "Tìm log...",
+    "usage_details": "Chi tiết sử dụng",
+    "total_quota": "Tổng chi phí",
+    "click_to_view": "Nhấn để xem",
+    "type": {
+      "select": "Lọc Loại Log",
+      "all": "Tất Cả",
+      "topup": "Nạp Tiền",
+      "usage": "Sử Dụng API",
+      "admin": "Quản Trị",
+      "system": "Hệ Thống",
+      "test": "Test Kênh"
+    },
+    "table": {
+      "time": "Thời Gian",
+      "channel": "Kênh Xử Lý",
+      "type": "Loại",
+      "model": "Model",
+      "username": "Tài Khoản",
+      "token_name": "Tên Token",
+      "token_name_placeholder": "Tìm tên token...",
+      "model_name": "Tên Model",
+      "model_name_placeholder": "Tìm model...",
+      "start_time": "Từ ngày",
+      "end_time": "Đến ngày",
+      "channel_id": "ID Kênh",
+      "channel_id_placeholder": "Nhập ID kênh...",
+      "username_placeholder": "Nhập username...",
+      "prompt_tokens": "Tokens Hỏi (Prompt)",
+      "completion_tokens": "Tokens Đáp (Completion)",
+      "quota": "Chi Phí",
+      "detail": "Chi Tiết"
+    },
+    "buttons": {
+      "query": "Hành Động",
+      "submit": "Tra Cứu",
+      "refresh": "Làm Mới"
+    }
+  },
+  "user": {
+    "title": "Quản Lý Khách Hàng",
+    "edit": {
+      "title": "Cập Nhật Thông Tin",
+      "username": "Username",
+      "username_placeholder": "Nhập username mới",
+      "password": "Mật Khẩu",
+      "password_placeholder": "Để trống nếu không đổi, tối thiểu 8 ký tự",
+      "display_name": "Tên Hiển Thị",
+      "display_name_placeholder": "Nhập tên hiển thị",
+      "group": "Nhóm Quyền",
+      "group_placeholder": "Chọn nhóm",
+      "group_addition": "Vào Cài đặt tỷ giá để thêm nhóm mới:",
+      "quota": "Số Dư Tài Khoản",
+      "quota_placeholder": "Cộng/Trừ số dư cho người này",
+      "github_id": "Tài khoản GitHub liên kết",
+      "github_id_placeholder": "Read-only, do người dùng tự link",
+      "wechat_id": "Tài khoản WeChat liên kết",
+      "wechat_id_placeholder": "Read-only",
+      "email": "Tài khoản Email",
+      "email_placeholder": "Read-only",
+      "buttons": {
+        "submit": "Lưu Thay Đổi",
+        "cancel": "Huỷ"
+      }
+    },
+    "add": {
+      "title": "Tạo Khách Hàng Mới"
+    },
+    "messages": {
+      "update_success": "Cập nhật user thành công!",
+      "create_success": "Tạo user thành công!",
+      "operation_success": "Thao tác hoàn tất!"
+    },
+    "search": "Tìm người dùng...",
+    "table": {
+      "id": "ID",
+      "username": "Tài Khoản",
+      "group": "Nhóm",
+      "quota": "Số Dư",
+      "role_text": "Vai Trò",
+      "status_text": "Trạng Thái",
+      "actions": "Thao Tác",
+      "remaining_quota": "Còn Lại",
+      "used_quota": "Đã Tiêu",
+      "request_count": "Số Lần Gọi",
+      "role_types": {
+        "normal": "Khách Thường",
+        "admin": "Quản Trị Viên",
+        "super_admin": "Super Admin",
+        "unknown": "Không Rõ"
+      },
+      "status_types": {
+        "activated": "Đang Hoạt Động",
+        "banned": "Bị Cấm",
+        "unknown": "Không Rõ"
+      },
+      "sort": {
+        "default": "Mặc định",
+        "by_quota": "Số dư còn lại",
+        "by_used_quota": "Tiền đã tiêu",
+        "by_request_count": "Số lượt gọi"
+      },
+      "sort_by": "Sắp xếp theo"
+    },
+    "buttons": {
+      "add": "Thêm User",
+      "delete": "Xoá",
+      "delete_user": "Xoá Tài Khoản",
+      "enable": "Mở Khóa",
+      "disable": "Cấm (Ban)",
+      "edit": "Sửa",
+      "promote": "Thăng Cấp (Admin)",
+      "demote": "Giáng Cấp"
+    }
+  },
+  "dashboard": {
+    "charts": {
+      "requests": {
+        "title": "Biểu Đồ Lượt Gọi",
+        "tooltip": "Lượt gọi"
+      },
+      "quota": {
+        "title": "Biểu Đồ Tiêu Dùng",
+        "tooltip": "Số tiền đã tiêu"
+      },
+      "tokens": {
+        "title": "Biểu Đồ Tokens",
+        "tooltip": "Số lượng tokens"
+      }
+    },
+    "statistics": {
+      "title": "Thống Kê Tổng Quan",
+      "tooltip": {
+        "date": "Ngày",
+        "value": "Giá trị"
+      }
+    }
+  },
+  "setting": {
+    "title": "Cài Đặt Hệ Thống",
+    "tabs": {
+      "personal": "Cài Đặt Cá Nhân",
+      "operation": "Cài Đặt Vận Hành",
+      "system": "Cài Đặt Cốt Lõi",
+      "other": "Giao Diện & Chú Ý"
+    },
+    "personal": {
+      "general": {
+        "title": "Cấu Hình Chung",
+        "system_token_notice": "Lưu ý: Token tạo ở đây là để gọi API Quản trị hệ thống (System Management), KHÔNG PHẢI để chat AI.",
+        "buttons": {
+          "update_profile": "Lưu Hồ Sơ",
+          "generate_token": "Tạo Token Quản Trị Hệ Thống",
+          "copy_invite": "Copy Link Mời Đăng Ký",
+          "delete_account": "Xoá Tài Khoản Này"
+        }
+      },
+      "binding": {
+        "title": "Liên Kết Đăng Nhập",
+        "buttons": {
+          "bind_wechat": "Liên Kết WeChat",
+          "bind_github": "Liên Kết GitHub",
+          "bind_email": "Liên Kết Email",
+          "bind_lark": "Liên Kết Lark"
+        },
+        "wechat": {
+          "title": "Quét Mã WeChat",
+          "description": "Quét mã QR để follow kênh, nhập 'code' để lấy mã xác thực",
+          "verification_code": "Mã xác thực",
+          "bind": "Liên Kết Ngay"
+        },
+        "email": {
+          "title": "Xác Minh Email",
+          "email_placeholder": "Nhập email của bạn",
+          "code_placeholder": "Mã xác thực",
+          "get_code": "Nhận Mã",
+          "get_code_retry": "Gửi Lại ({{countdown}}s)",
+          "bind": "Xác Nhận",
+          "cancel": "Huỷ"
+        }
+      },
+      "delete_account": {
+        "title": "Khu Vực Nguy Hiểm",
+        "warning": "Bạn đang xoá tài khoản. Mọi lịch sử chat, số dư, token sẽ bốc hơi và không thể phục hồi!",
+        "confirm_placeholder": "Nhập username của bạn '{{username}}' để xác nhận",
+        "buttons": {
+          "confirm": "Xoá Vĩnh Viễn",
+          "cancel": "Quay Lại"
+        }
+      }
+    },
+    "system": {
+      "general": {
+        "title": "Máy Chủ Hiện Tại",
+        "server_address": "URL Máy Chủ One API",
+        "server_address_placeholder": "Ví dụ: https://api.shynbui.com",
+        "buttons": {
+          "update": "Cập Nhật URL Máy Chủ"
+        }
+      },
+      "login": {
+        "title": "Bảo Mật Đăng Nhập / Đăng Ký",
+        "password_login": "Cho phép đăng nhập bằng Mật Khẩu",
+        "password_register": "Cho phép đăng ký bằng Mật Khẩu",
+        "email_verification": "Bắt buộc Xác Minh Email khi đăng ký",
+        "github_oauth": "Bật tính năng Đăng Nhập GitHub",
+        "wechat_login": "Bật tính năng Đăng Nhập WeChat",
+        "registration": "MỞ CỬA CHO USER MỚI ĐĂNG KÝ (Nếu tắt, không ai đăng ký được nữa)",
+        "turnstile": "Bật tính năng chống Bot (Cloudflare Turnstile)"
+      },
+      "email_restriction": {
+        "title": "Chặn Email Rác (Whitelist)",
+        "subtitle": "Chỉ cho phép các đuôi email xịn (như @gmail.com) đăng ký để chống bot ảo",
+        "enable": "Kích hoạt chế độ Whitelist",
+        "allowed_domains": "Các đuôi Email được phép",
+        "add_domain": "Thêm đuôi Email",
+        "add_domain_placeholder": "Nhập đuôi email, ví dụ: gmail.com",
+        "buttons": {
+          "fill": "Điền Nhanh (Gmail/Outlook/Yahoo)",
+          "save": "Lưu Bộ Lọc"
+        }
+      },
+      "smtp": {
+        "title": "Cấu Hình Gửi Mail (SMTP)",
+        "subtitle": "Dùng để gửi mã OTP, cấp lại mật khẩu",
+        "server": "Máy Chủ SMTP",
+        "server_placeholder": "Ví dụ: smtp.gmail.com",
+        "port": "Cổng SMTP",
+        "port_placeholder": "Mặc định: 587",
+        "account": "Tài Khoản Gửi",
+        "account_placeholder": "Thường là email của bạn",
+        "from": "Tên Người Gửi (From)",
+        "from_placeholder": "Ví dụ: Hệ Thống AI One API",
+        "token": "Mật khẩu Ứng Dụng (App Password)",
+        "token_placeholder": "Bảo mật",
+        "buttons": {
+          "save": "Lưu Cấu Hình Mail"
+        }
+      },
+      "github": {
+        "title": "Cấu Hình GitHub OAuth",
+        "subtitle": "Đăng nhập 1 chạm bằng Github",
+        "manage_link": "Bấm vào đây",
+        "manage_text": "để đăng ký GitHub OAuth Apps",
+        "url_notice": "Trong Github, set Homepage URL thành: {{server_url}}, và Callback URL thành: {{callback_url}}",
+        "client_id": "Client ID",
+        "client_id_placeholder": "Nhập Client ID",
+        "client_secret": "Client Secret",
+        "client_secret_placeholder": "Bảo mật",
+        "buttons": {
+          "save": "Lưu Github"
+        }
+      },
+      "lark": {
+        "title": "Cấu Hình Lark OAuth",
+        "subtitle": "Đăng nhập bằng Lark",
+        "manage_link": "Bấm vào đây",
+        "manage_text": "để đăng ký Lark App",
+        "url_notice": "Set Homepage URL thành {{server_url}}, và Redirect URL thành {{callback_url}}",
+        "client_id": "App ID",
+        "client_id_placeholder": "Nhập App ID",
+        "client_secret": "App Secret",
+        "client_secret_placeholder": "Bảo mật",
+        "buttons": {
+          "save": "Lưu Lark"
+        }
+      },
+      "wechat": {
+        "title": "Cấu Hình WeChat Server",
+        "subtitle": "Hỗ trợ login bằng WeChat",
+        "learn_more": "Đọc docs",
+        "server_address": "WeChat Server URL",
+        "server_address_placeholder": "Ví dụ: https://yourdomain.com",
+        "token": "Access Token",
+        "token_placeholder": "Bảo mật",
+        "qrcode": "Link Ảnh QR Code WeChat",
+        "qrcode_placeholder": "Dán link ảnh vào đây",
+        "buttons": {
+          "save": "Lưu WeChat"
+        },
+        "scan_tip": "Quét mã để nhận code xác thực",
+        "code_placeholder": "Mã xác thực"
+      },
+      "turnstile": {
+        "title": "Chống DDoS Bot (Cloudflare Turnstile)",
+        "subtitle": "Bảo vệ hệ thống khỏi bão request ảo",
+        "manage_link": "Bấm vào đây",
+        "manage_text": "để lấy mã Cloudflare Turnstile",
+        "site_key": "Site Key",
+        "site_key_placeholder": "Nhập Site Key",
+        "secret_key": "Secret Key",
+        "secret_key_placeholder": "Nhập Secret Key",
+        "buttons": {
+          "save": "Lưu Cấu Hình Chống Bot"
+        }
+      },
+      "password_login": {
+        "warning": {
+          "title": "CẢNH BÁO BẢO MẬT",
+          "content": "Nếu bạn tắt Đăng nhập bằng Mật Khẩu, TẤT CẢ mọi người (kể cả bạn) sẽ bị đá ra ngoài nếu chưa liên kết Github/WeChat. Bạn có chắc chắn muốn khoá tính năng này?",
+          "buttons": {
+            "confirm": "Khoá Luôn",
+            "cancel": "Từ Từ Đã"
+          }
+        }
+      }
+    },
+    "operation": {
+      "quota": {
+        "title": "Chính Sách Tặng Tiền (Quota)",
+        "new_user": "Số tiền tặng User Mới",
+        "new_user_placeholder": "Ví dụ: 1000",
+        "pre_consume": "Tạm thu tiền trước khi call API (Chống âm tiền)",
+        "pre_consume_placeholder": "Sẽ hoàn lại phần thừa sau khi có kết quả trả về",
+        "inviter_reward": "Tiền thưởng cho Người Mời (Referral)",
+        "inviter_reward_placeholder": "Ví dụ: 2000",
+        "invitee_reward": "Tiền thưởng cho Người Được Mời",
+        "invitee_reward_placeholder": "Ví dụ: 1000",
+        "buttons": {
+          "save": "Lưu Chính Sách"
+        }
+      },
+      "ratio": {
+        "title": "Bảng Giá (Tỷ Giá Nhân)",
+        "model": {
+          "title": "Giá Cơ Bản Từng Model",
+          "placeholder": "Định dạng JSON. Ví dụ: {\"gpt-4\": 30, \"gemini-pro\": 1}"
+        },
+        "completion": {
+          "title": "Giá Bán Kèm (Completion Ratio)",
+          "placeholder": "Định dạng JSON. Cài đặt hệ số nhân cho Tokens Đầu Ra (Completion). Nó sẽ đè lên giá mặc định."
+        },
+        "group": {
+          "title": "Hệ Số Nhân Theo Nhóm Quyền (VIP)",
+          "placeholder": "Định dạng JSON. Ví dụ: {\"vip\": 0.8, \"default\": 1} (Khách VIP được giảm 20% giá)"
+        },
+        "buttons": {
+          "save": "Lưu Bảng Giá"
+        }
+      },
+      "log": {
+        "title": "Quản Lý Dọn Dẹp Logs",
+        "enable_consume": "Bật tính năng Ghi Nhật Ký Trừ Tiền",
+        "target_time": "Mốc Thời Gian Cũ",
+        "buttons": {
+          "clean": "Xoá Sạch Logs Lịch Sử Cũ"
+        }
+      },
+      "monitor": {
+        "title": "Tự Động Trạm Gác (Load Balancer)",
+        "max_response_time": "Tốc Độ Phản Hồi Chấp Nhận (Giây)",
+        "max_response_time_placeholder": "Kênh nào quá thời gian này sẽ tự động bị ngắt (Khoá)",
+        "quota_reminder": "Cảnh Báo Sắp Hết Tiền",
+        "quota_reminder_placeholder": "Gửi email cho khách khi tiền nhỏ hơn mức này",
+        "auto_disable": "Bật: Tự Động KHOÁ Kênh khi kênh đó bị lỗi API",
+        "auto_enable": "Bật: Tự Động MỞ LẠI Kênh khi nó sống lại",
+        "buttons": {
+          "save": "Lưu Trạm Gác"
+        }
+      },
+      "general": {
+        "title": "Cấu Hình Hiển Thị & Thanh Toán",
+        "topup_link": "Link Website Mua Thẻ Nạp",
+        "topup_link_placeholder": "Ví dụ: https://shop.domain.com",
+        "chat_link": "Link Truy Cập Web Chat (ChatGPT Next)",
+        "chat_link_placeholder": "Ví dụ: https://chat.shynbui.com",
+        "quota_per_unit": "Tỷ giá quy đổi (1 Đô la = Bao nhiêu Quota)",
+        "quota_per_unit_placeholder": "Định giá tiền tệ",
+        "retry_times": "Số lần thử lại khi API lỗi (Retry)",
+        "retry_times_placeholder": "Nên để 2-3 lần",
+        "display_in_currency": "Bật: Hiển thị giao diện bằng Tiền Tệ ($ / VNĐ)",
+        "display_token_stat": "Hiển thị Token thay vì Số Dư Quota trong API",
+        "approximate_token": "Sử dụng bộ đếm Token xấp xỉ (Nhẹ server hơn)",
+        "buttons": {
+          "save": "Lưu Hiển Thị"
+        }
+      }
+    },
+    "other": {
+      "notice": {
+        "title": "Bảng Thông Báo Chạy Chữ",
+        "content": "Nội Dung Bảng Tin",
+        "content_placeholder": "Nhập tin tức quan trọng, có hỗ trợ HTML và Markdown",
+        "buttons": {
+          "save": "Phát Sóng"
+        }
+      },
+      "system": {
+        "title": "Cá Nhân Hoá Giao Diện",
+        "name": "Tên Thương Hiệu",
+        "name_placeholder": "Ví dụ: Shynbui API",
+        "logo": "Link Logo",
+        "logo_placeholder": "Dán link logo vào đây",
+        "theme": {
+          "title": "Màu Sắc / Giao Diện",
+          "link": "Xem các mẫu",
+          "placeholder": "Nhập tên mẫu giao diện"
+        },
+        "buttons": {
+          "save_name": "Lưu Tên",
+          "save_logo": "Lưu Logo",
+          "save_theme": "Lưu Theme (Phải Refresh)"
+        }
+      },
+      "content": {
+        "title": "Trang Tĩnh",
+        "homepage": {
+          "title": "Nội Dung Trang Chủ",
+          "placeholder": "Bạn có thể thiết kế trang chủ tuỳ ý bằng HTML. Hoặc chèn Iframe một website khác."
+        },
+        "about": {
+          "title": "Trang Giới Thiệu (About)",
+          "description": "Tuỳ chỉnh trang About. Hỗ trợ Markdown & HTML",
+          "repository": "Source Code Trữ Tại:",
+          "loading_failed": "Lỗi tải About..."
+        },
+        "footer": {
+          "title": "Chân Trang (Footer)",
+          "placeholder": "Nhập Footer HTML tuỳ chỉnh, bỏ trống để dùng gốc"
+        },
+        "buttons": {
+          "save_homepage": "Lưu Trang Chủ",
+          "save_about": "Lưu Trang About",
+          "save_footer": "Lưu Footer"
+        }
+      },
+      "copyright": {
+        "notice": "Việc xoá bản quyền One API cần được cho phép. Tác giả đã rất vất vả để làm ra nó, nếu bạn có tiền hãy Donate cho tác giả nhé."
+      }
+    }
+  },
+  "footer": {
+    "built_by": "được xây dựng bởi",
+    "built_by_name": "JustSong",
+    "license": ", mã nguồn mở MIT tại",
+    "mit": "MIT License"
+  },
+  "home": {
+    "welcome": {
+      "title": "Chào mừng đến với hệ thống AI",
+      "description": "Hệ thống Quản lý và Phân phối API Trí tuệ nhân tạo Tốc Độ Cao. Giúp bạn quản lý và sử dụng 100+ Model AI từ nhiều hãng khác nhau (OpenAI, Google, Anthropic, Cohere, Groq) một cách dễ dàng và tiết kiệm nhất.",
+      "login_notice": "Để gọi API, vui lòng đăng nhập vào tài khoản của bạn."
+    },
+    "system_status": {
+      "title": "Sức Khoẻ Hệ Thống",
+      "info": {
+        "title": "Tình Trạng Máy Chủ",
+        "name": "Tên: ",
+        "version": "Phiên Bản: ",
+        "source": "Mã Nguồn: ",
+        "source_link": "Kho GitHub",
+        "start_time": "Vận hành từ: "
+      },
+      "config": {
+        "title": "Tính Năng Mở Khóa",
+        "email_verify": "Xác Minh Email: ",
+        "github_oauth": "Login GitHub: ",
+        "wechat_login": "Login WeChat: ",
+        "turnstile": "Lá Chắn Chống Bot: ",
+        "enabled": "Đã Bật",
+        "disabled": "Đang Tắt"
+      }
+    },
+    "loading_failed": "Mất mạng, không thể tải trang chủ..."
+  },
+  "auth": {
+    "login": {
+      "title": "Đăng Nhập Khách Hàng",
+      "username": "Tên đăng nhập / Email",
+      "password": "Mật khẩu",
+      "button": "Vào Hệ Thống",
+      "forgot_password": "Quên mật khẩu?",
+      "reset_password": "Lấy lại ngay",
+      "no_account": "Chưa có tài khoản?",
+      "register": "Mở Tài Khoản",
+      "other_methods": "Cách Đăng Nhập Khác",
+      "wechat": {
+        "scan_tip": "Dùng WeChat quét mã, gửi tin nhắn 'code' để lấy mã đăng nhập",
+        "code_placeholder": "Nhập mã..."
+      }
+    },
+    "register": {
+      "title": "Mở Tài Khoản Mới",
+      "username": "Tên đăng nhập (Tối đa 12 chữ)",
+      "password": "Mật khẩu (8-20 ký tự)",
+      "confirm_password": "Nhập lại mật khẩu",
+      "email": "Địa chỉ Email",
+      "verification_code": "Mã OTP Xác Thực",
+      "get_code": "Lấy OTP",
+      "get_code_retry": "Lấy lại sau ({{countdown}}s)",
+      "button": "Đăng Ký Khách Hàng",
+      "has_account": "Bạn đã là khách hàng?",
+      "login": "Đăng nhập ngay"
+    },
+    "reset": {
+      "title": "Khôi Phục Mật Khẩu",
+      "email": "Nhập Email đăng ký",
+      "button": "Khôi Phục Ngay",
+      "notice": "Hệ thống sẽ gửi link khôi phục thần tốc qua Email của bạn.",
+      "confirm": {
+        "title": "Xác Nhận Đổi Mật Khẩu",
+        "new_password": "Mật khẩu mới",
+        "button": "Lưu Thay Đổi",
+        "button_disabled": "Đã đổi thành công",
+        "notice": "Mật khẩu mới đã được tạo rando. Nhấp vào để copy. Hãy login và đổi lại ngay cho dễ nhớ!"
+      }
+    }
+  },
+  "about": {
+    "title": "Về Dự Án",
+    "description": "Đây là Cổng Trung Chuyển API AI tốc độ cao.",
+    "repository": "Source Code: ",
+    "loading_failed": "Lỗi kết nối..."
+  },
+  "messages": {
+    "success": {
+      "login": "Chào mừng trở lại!",
+      "register": "Đăng ký thành công! Hãy trải nghiệm ngay.",
+      "verification_code": "Đã bắn mã OTP vào Email, hãy kiểm tra nhé!",
+      "password_reset": "Thư khôi phục đã bay vào hòm thư của bạn!"
+    },
+    "error": {
+      "login_expired": "Phiên làm việc đã hết hạn. Mời sếp đăng nhập lại!",
+      "password_length": "Bảo mật yếu. Mật khẩu phải từ 8 ký tự trở lên!",
+      "password_mismatch": "Mật khẩu gõ lại không khớp, sai chính tả kìa!",
+      "turnstile_wait": "Chờ chút xíu để check tường lửa chống Bot nha sếp...",
+      "root_password": "CẢNH BÁO BẢO MẬT ĐỎ: Sếp đang xài mật khẩu mặc định (123456). Vui lòng đổi ngay kẻo bị hack bay sạch tiền!"
+    },
+    "notice": {
+      "password_copied": "Đã bế mật khẩu mới vào khay nhớ tạm: {{password}}"
+    }
+  }
+}
