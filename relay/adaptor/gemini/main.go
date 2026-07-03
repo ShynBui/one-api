@@ -187,6 +187,15 @@ func ConvertEmbeddingRequest(request model.GeneralOpenAIRequest) *BatchEmbedding
 type ChatResponse struct {
 	Candidates     []ChatCandidate    `json:"candidates"`
 	PromptFeedback ChatPromptFeedback `json:"promptFeedback"`
+	UsageMetadata  *UsageMetadata     `json:"usageMetadata,omitempty"`
+}
+
+type UsageMetadata struct {
+	PromptTokenCount        int `json:"promptTokenCount"`
+	CandidatesTokenCount    int `json:"candidatesTokenCount"`
+	TotalTokenCount         int `json:"totalTokenCount"`
+	CachedContentTokenCount int `json:"cachedContentTokenCount"`
+	ThoughtsTokenCount      int `json:"thoughtsTokenCount"`
 }
 
 func (g *ChatResponse) GetResponseText() string {
@@ -388,6 +397,25 @@ func Handler(c *gin.Context, resp *http.Response, promptTokens int, modelName st
 		PromptTokens:     promptTokens,
 		CompletionTokens: completionTokens,
 		TotalTokens:      promptTokens + completionTokens,
+	}
+	// Prefer Gemini's real usageMetadata over locally re-tokenized estimates
+	// (CountTokenText uses an OpenAI tokenizer and misses thought tokens).
+	// Also surface cachedContentTokenCount so clients can observe implicit
+	// prompt-cache hits (OpenAI-compatible prompt_tokens_details.cached_tokens).
+	if um := geminiResponse.UsageMetadata; um != nil && um.TotalTokenCount > 0 {
+		usage.PromptTokens = um.PromptTokenCount
+		usage.CompletionTokens = um.TotalTokenCount - um.PromptTokenCount
+		usage.TotalTokens = um.TotalTokenCount
+		if um.CachedContentTokenCount > 0 {
+			usage.PromptTokensDetails = &model.PromptTokensDetails{
+				CachedTokens: um.CachedContentTokenCount,
+			}
+		}
+		if um.ThoughtsTokenCount > 0 {
+			usage.CompletionTokensDetails = &model.CompletionTokensDetails{
+				ReasoningTokens: um.ThoughtsTokenCount,
+			}
+		}
 	}
 	fullTextResponse.Usage = usage
 	jsonResponse, err := json.Marshal(fullTextResponse)
